@@ -13,5 +13,17 @@
     "assignment"
   ],
   "author": "Khush Bandaria",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khushhhh4405/FIT2095A1_34151303.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Khushhhh4405/FIT2095A1_34151303/issues"
+  },
+  "homepage": "https://github.com/Khushhhh4405/FIT2095A1_34151303#readme"
 }
