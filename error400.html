@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Invalid Data (400)</title>
+  <link rel="stylesheet" href="/assets-34151303/bootstrap/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="alert alert-warning">
+      <h1 class="h3 mb-3">Invalid data (400)</h1>
+      <p id="msg">Your request contained invalid or missing fields.</p>
+      <a class="btn btn-primary" href="/">Go back</a>
+    </div>
+  </div>
+  <script>
+    // Show message from query string if present (?msg=...)
+    const params = new URLSearchParams(location.search);
+    const m = params.get('msg');
+    if (m) document.getElementById('msg').textContent = m;
+  </script>
+</body>
+</html>
