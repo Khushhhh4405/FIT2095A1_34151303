@@ -227,6 +227,18 @@ export class InventoryItem {
     return this;
   }
 
+  increment(by = 1) {
+    assert(isNumber(by) && by > 0, "increment must be a positive number");
+    this.#quantity += by;
+    return this;
+  }
+
+  decrement(by = 1) {
+    assert(isNumber(by) && by > 0, "decrement must be a positive number");
+    this.#quantity = Math.max(0, this.#quantity - by);
+    return this;
+  }
+
   toJSON() {
     return {
       inventoryId: this.#inventoryId,
