@@ -1,0 +1,17 @@
+{
+  "name": "fit2095a1_34151303",
+  "version": "1.0.0",
+  "description": "A personal recipe management and meal planning system for FIT2095 Assignment 1(Khush Bandaria-34151303)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "recipe",
+    "meal-planner",
+    "assignment"
+  ],
+  "author": "Khush Bandaria",
+  "license": "ISC"
+}
