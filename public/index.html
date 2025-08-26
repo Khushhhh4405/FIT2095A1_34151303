@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipe Hub — Khush Bandaria (34151303)</title>
+
+  <!-- Bootstrap served locally (NO CDN) -->
+  <link rel="stylesheet" href="/assets-34151303/bootstrap/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/images/logo_34151303.png" alt="Logo" width="32" height="32" class="rounded">
+        <span class="fw-bold">Recipe Hub</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Recipes</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/api/recipes-34151303">View (GET)</a></li>
+              <li><a class="dropdown-item" href="/errors/400.html">Add (POST) – see docs</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Inventory</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/api/inventory-34151303">View (GET)</a></li>
+              <li><a class="dropdown-item" href="/errors/400.html">Add (POST) – see docs</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Errors</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/errors/400.html">400</a></li>
+              <li><a class="dropdown-item" href="/errors/404.html">404</a></li>
+              <li><a class="dropdown-item" href="/errors/500.html">500</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <span class="navbar-text">
+          Welcome, <strong>Khush Bandaria</strong> (ID: 34151303)
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="py-5 text-white text-center" style="background: linear-gradient(135deg,#0d6efd,#4aa3ff);">
+    <div class="container">
+      <h1 class="display-5 fw-bold mb-2">Your Personal Meal Planning Assistant</h1>
+      <p class="lead mb-3">Store recipes, manage ingredients, and plan meals efficiently.</p>
+      <div class="small opacity-75">Node.js + Express • Bootstrap (local) • In-memory storage</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="container my-5">
+    <h2 class="h4 text-center mb-4">Overview</h2>
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="card text-center border-0 shadow-sm h-100">
+          <div class="card-body">
+            <div class="fw-semibold text-muted">Total Recipes</div>
+            <div id="stat-recipes" class="display-6">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center border-0 shadow-sm h-100">
+          <div class="card-body">
+            <div class="fw-semibold text-muted">Inventory Items</div>
+            <div id="stat-items" class="display-6">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center border-0 shadow-sm h-100">
+          <div class="card-body">
+            <div class="fw-semibold text-muted">Cuisine Types</div>
+            <div id="stat-cuisines" class="display-6">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center border-0 shadow-sm h-100">
+          <div class="card-body">
+            <div class="fw-semibold text-muted">Inventory Value</div>
+            <div id="stat-value" class="display-6">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH & SPOTLIGHT -->
+  <section class="container mb-5">
+    <div class="row g-4">
+      <!-- Search -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white">
+            <div class="d-flex align-items-center justify-content-between">
+              <h3 class="h5 mb-0">Find Recipes</h3>
+              <small class="text-muted">Search title, chef, cuisine, or ingredient</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <form id="search-form" class="row g-2">
+              <div class="col-12 col-md-8">
+                <input id="search-q" class="form-control" placeholder="e.g. spaghetti, avocado, Italian" />
+              </div>
+              <div class="col-6 col-md-2">
+                <input id="search-max" class="form-control" type="number" min="0" placeholder="Max mins" />
+              </div>
+              <div class="col-6 col-md-2 d-grid">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </form>
+
+            <div id="search-status" class="text-muted small mt-3" style="display:none;"></div>
+            <div id="search-results" class="row row-cols-1 row-cols-md-2 g-3 mt-1"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotlight -->
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-light fw-semibold">Spotlight: Quickest Recipe</div>
+          <div class="card-body d-flex align-items-start">
+            <img src="/images/Avocado_Toast.png" alt="Avocado Toast" 
+                class="me-3 rounded shadow-sm" width="90" height="90">
+            <div>
+              <h5 class="card-title mb-1">Avocado Toast Supreme</h5>
+              <p class="text-muted small mb-2">Mediterranean • Breakfast • 10 mins</p>
+              <p class="mb-0">
+                <strong>Ingredients:</strong> sourdough bread, avocado, tomato, Feta cheese …
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- INVENTORY SNAPSHOT -->
+  <section class="container mb-5">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h3 class="h5 mb-0">Inventory Snapshot</h3>
+        <a class="btn btn-sm btn-outline-success" href="/api/inventory-34151303">View Full JSON</a>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Ingredient</th>
+                <th class="text-end">Qty</th>
+                <th>Unit</th>
+                <th>Location</th>
+                <th class="text-end">Cost</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-rows">
+              <tr><td colspan="5" class="text-muted">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-end text-muted small" id="inventory-note"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    async function loadInventory() {
+      const $rows = document.getElementById("inventory-rows");
+      const $note = document.getElementById("inventory-note");
+
+      try {
+        const res = await fetch("/api/inventory-34151303");
+        const items = await res.json();
+
+        if (!items.length) {
+          $rows.innerHTML = '<tr><td colspan="5" class="text-muted">No inventory items found.</td></tr>';
+          if ($note) $note.textContent = "";
+          return;
+        }
+
+        // Only show up to 5 rows in the snapshot
+        const shown = items.slice(0, 5);
+        $rows.innerHTML = shown.map(it => `
+          <tr>
+            <td>${it.ingredientName}</td>
+            <td class="text-end">${it.quantity}</td>
+            <td>${it.unit}</td>
+            <td>${it.location || "-"}</td>
+            <td class="text-end">$${(Number(it.cost) || 0).toFixed(2)}</td>
+          </tr>
+        `).join("");
+
+        // Show note if there are more than 5
+        if ($note) {
+          $note.textContent = items.length > 5
+            ? `Showing 5 of ${items.length} items`
+            : `Showing ${items.length} item(s)`;
+        }
+      } catch (err) {
+        console.error("Inventory load failed:", err);
+        $rows.innerHTML = '<tr><td colspan="5" class="text-danger">Failed to load inventory.</td></tr>';
+        if ($note) $note.textContent = "";
+      }
+    }
+
+    loadInventory();
+  </script>
+
+  <!-- QUICK ACTIONS -->
+  <section class="container mb-5">
+    <h2 class="h5 mb-3">Quick Actions</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-primary text-white">Recipes</div>
+          <div class="card-body">
+            <a class="btn btn-outline-primary w-100 mb-2" href="/api/recipes-34151303">View All Recipes</a>
+            <a class="btn btn-outline-secondary w-100" href="/errors/400.html">Add New Recipe (POST)</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-success text-white">Inventory</div>
+          <div class="card-body">
+            <a class="btn btn-outline-success w-100 mb-2" href="/api/inventory-34151303">View Inventory</a>
+            <a class="btn btn-outline-secondary w-100" href="/errors/400.html">Add Inventory Item (POST)</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-warning">Helpful Links</div>
+          <div class="card-body">
+            <a class="btn btn-outline-warning w-100 mb-2" href="/errors/404.html">404 Page</a>
+            <a class="btn btn-outline-warning w-100" href="/errors/500.html">500 Page</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-top py-4">
+    <div class="container d-flex justify-content-between small text-muted">
+      <div>
+        <div class="fw-semibold">Recipe Hub</div>
+        <div>Personal Meal Planning Assistant</div>
+      </div>
+      <div class="text-end">
+        <div>Built by <strong>Khush Bandaria</strong></div>
+        <div>Student ID: <strong>34151303</strong></div>
+      </div>
+    </div>
+    <div class="container text-center small text-muted mt-3">© 2025 Recipe Hub – FIT2095 Assignment 1</div>
+  </footer>
+
+  <script src="/assets-34151303/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const RECIPES_URL = '/api/recipes-34151303';
+    const INV_URL = '/api/inventory-34151303';
+
+    // Utility
+    const el = sel => document.querySelector(sel);
+
+    // Load stats + spotlight + inventory
+    async function loadDashboard() {
+      try {
+        const [recipes, items] = await Promise.all([
+          fetch(RECIPES_URL).then(r => r.json()),
+          fetch(INV_URL).then(r => r.json())
+        ]);
+
+        // Stats
+        el('#stat-recipes').textContent = recipes.length;
+        el('#stat-items').textContent = items.length;
+        const cuisines = new Set(recipes.map(r => (r.cuisineType || '').toLowerCase()).filter(Boolean));
+        el('#stat-cuisines').textContent = cuisines.size;
+        const total = items.reduce((sum, it) => sum + (Number(it.cost) || 0), 0);
+        el('#stat-value').textContent = '$' + total.toFixed(2);
+
+        // Spotlight (shortest prepTime)
+        if (recipes.length) {
+          const sorted = [...recipes].sort((a,b) => (a.prepTime||9999) - (b.prepTime||9999));
+          const r = sorted[0];
+          el('#spotlight').innerHTML = `
+            <div class="d-flex gap-3 align-items-start">
+              <img src="/images/logo-34151303.png" alt="" width="56" height="56" class="rounded border">
+              <div>
+                <div class="h5 mb-1">${r.title}</div>
+                <div class="text-muted small mb-2">
+                  ${r.cuisineType || '—'} • ${r.mealType || '—'} • ${r.prepTime} mins
+                </div>
+                <div class="small">
+                  <strong>Ingredients:</strong>
+                  ${Array.isArray(r.ingredients) ? r.ingredients.map(i => (i.item || i)).slice(0,4).join(', ') : '—'}
+                  ${Array.isArray(r.ingredients) && r.ingredients.length > 4 ? '…' : ''}
+                </div>
+              </div>
+            </div>`;
+        } else {
+          el('#spotlight').textContent = 'No recipes yet.';
+        }
+
+        // Inventory snapshot (top 5)
+        const tbody = el('#inventory-rows');
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-muted">No inventory items yet.</td></tr>';
+        } else {
+          tbody.innerHTML = items.slice(0,5).map(it => `
+            <tr>
+              <td>${it.ingredientName}</td>
+              <td class="text-end">${it.quantity}</td>
+              <td>${it.unit}</td>
+              <td>${it.location || '—'}</td>
+              <td class="text-end">${(Number(it.cost)||0).toFixed(2)}</td>
+            </tr>
+          `).join('');
+          el('#inventory-note').textContent =
+            items.length > 5 ? `Showing 5 of ${items.length} items` : `Showing ${items.length} item(s)`;
+        }
+      } catch (e) {
+        console.error(e);
+        // leave placeholders
+      }
+    }
+
+    // Search
+    async function onSearch(evt) {
+      evt.preventDefault();
+      const q = el('#search-q').value.trim();
+      const max = el('#search-max').value.trim();
+      const status = el('#search-status');
+      const grid = el('#search-results');
+
+      status.style.display = 'block';
+      status.textContent = 'Searching…';
+      grid.innerHTML = '';
+
+      try {
+        const url = new URL(RECIPES_URL, location.origin);
+        if (q) url.searchParams.set('q', q);
+        if (max) url.searchParams.set('maxPrep', max);
+
+        const data = await fetch(url).then(r => r.json());
+        status.textContent = data.length ? `Found ${data.length} recipe(s)` : 'No results';
+        grid.innerHTML = data.map(r => `
+          <div class="col">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body">
+                <div class="h6 mb-1">${r.title}</div>
+                <div class="text-muted small mb-2">${r.cuisineType || '—'} • ${r.mealType || '—'}</div>
+                <div class="small">Prep: ${r.prepTime} mins • Servings: ${r.servings}</div>
+              </div>
+            </div>
+          </div>`).join('');
+      } catch (e) {
+        status.textContent = 'Search failed.';
+      }
+    }
+
+    document.getElementById('search-form').addEventListener('submit', onSearch);
+    loadDashboard();
+  </script>
+</body>
+</html>

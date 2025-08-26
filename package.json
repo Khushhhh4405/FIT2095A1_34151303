@@ -2,10 +2,10 @@
   "name": "fit2095a1_34151303",
   "version": "1.0.0",
   "description": "A personal recipe management and meal planning system for FIT2095 Assignment 1(Khush Bandaria-34151303)",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "keywords": [
     "recipe",
@@ -15,11 +15,11 @@
   "author": "Khush Bandaria",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "express": "^5.1.0"
   },
-  "devDependencies": {},
   "repository": {
-    "type": "git",
+    "type": "module",
     "url": "git+https://github.com/Khushhhh4405/FIT2095A1_34151303.git"
   },
   "bugs": {
