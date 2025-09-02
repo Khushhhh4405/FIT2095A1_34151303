@@ -6,7 +6,7 @@
   <title>Recipe Hub — Khush Bandaria (34151303)</title>
 
   <!-- Bootstrap served locally (NO CDN) -->
-  <link rel="stylesheet" href="/assets-34151303/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets-34151303/bootstrap/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
 
@@ -24,14 +24,17 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
 
+          <!-- Recipes dropdown -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Recipes</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/api/recipes-34151303">View (GET)</a></li>
-              <li><a class="dropdown-item" href="/errors/400.html">Add (POST) – see docs</a></li>
+              <li><a class="dropdown-item" href="/recipes/index.html">View (UI)</a></li>
+              <li><a class="dropdown-item" href="/recipes/new">➕ Add New Recipe</a></li>
+              <li><a class="dropdown-item" href="/api/recipes-34151303">View JSON</a></li>
             </ul>
           </li>
 
+          <!-- Inventory dropdown -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Inventory</a>
             <ul class="dropdown-menu">
@@ -40,6 +43,7 @@
             </ul>
           </li>
 
+          <!-- Error pages -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Errors</a>
             <ul class="dropdown-menu">
@@ -137,22 +141,15 @@
       </div>
 
       <!-- Spotlight -->
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="card border-0 shadow-sm h-100">
           <div class="card-header bg-light fw-semibold">Spotlight: Quickest Recipe</div>
-          <div class="card-body d-flex align-items-start">
-            <img src="/images/Avocado_Toast.png" alt="Avocado Toast" 
-                class="me-3 rounded shadow-sm" width="90" height="90">
-            <div>
-              <h5 class="card-title mb-1">Avocado Toast Supreme</h5>
-              <p class="text-muted small mb-2">Mediterranean • Breakfast • 10 mins</p>
-              <p class="mb-0">
-                <strong>Ingredients:</strong> sourdough bread, avocado, tomato, Feta cheese …
-              </p>
-            </div>
+          <div class="card-body" id="spotlight">
+            <div class="text-muted small">Loading…</div>
           </div>
         </div>
       </div>
+    </div>
   </section>
 
   <!-- INVENTORY SNAPSHOT -->
@@ -185,49 +182,6 @@
     </div>
   </section>
 
-  <script>
-    async function loadInventory() {
-      const $rows = document.getElementById("inventory-rows");
-      const $note = document.getElementById("inventory-note");
-
-      try {
-        const res = await fetch("/api/inventory-34151303");
-        const items = await res.json();
-
-        if (!items.length) {
-          $rows.innerHTML = '<tr><td colspan="5" class="text-muted">No inventory items found.</td></tr>';
-          if ($note) $note.textContent = "";
-          return;
-        }
-
-        // Only show up to 5 rows in the snapshot
-        const shown = items.slice(0, 5);
-        $rows.innerHTML = shown.map(it => `
-          <tr>
-            <td>${it.ingredientName}</td>
-            <td class="text-end">${it.quantity}</td>
-            <td>${it.unit}</td>
-            <td>${it.location || "-"}</td>
-            <td class="text-end">$${(Number(it.cost) || 0).toFixed(2)}</td>
-          </tr>
-        `).join("");
-
-        // Show note if there are more than 5
-        if ($note) {
-          $note.textContent = items.length > 5
-            ? `Showing 5 of ${items.length} items`
-            : `Showing ${items.length} item(s)`;
-        }
-      } catch (err) {
-        console.error("Inventory load failed:", err);
-        $rows.innerHTML = '<tr><td colspan="5" class="text-danger">Failed to load inventory.</td></tr>';
-        if ($note) $note.textContent = "";
-      }
-    }
-
-    loadInventory();
-  </script>
-
   <!-- QUICK ACTIONS -->
   <section class="container mb-5">
     <h2 class="h5 mb-3">Quick Actions</h2>
@@ -236,8 +190,12 @@
         <div class="card border-0 shadow-sm h-100">
           <div class="card-header bg-primary text-white">Recipes</div>
           <div class="card-body">
-            <a class="btn btn-outline-primary w-100 mb-2" href="/api/recipes-34151303">View All Recipes</a>
-            <a class="btn btn-outline-secondary w-100" href="/errors/400.html">Add New Recipe (POST)</a>
+            <a class="btn btn-outline-primary w-100 mb-2" href="/recipes/index.html">
+              View All Recipes
+            </a>
+            <a class="btn btn-outline-secondary w-100" href="/recipes/new.html">
+              ➕ Add New Recipe
+            </a>
           </div>
         </div>
       </div>
@@ -277,12 +235,12 @@
     <div class="container text-center small text-muted mt-3">© 2025 Recipe Hub – FIT2095 Assignment 1</div>
   </footer>
 
+  <!-- Single Bootstrap bundle at the end -->
   <script src="/assets-34151303/bootstrap/js/bootstrap.bundle.min.js"></script>
+
   <script>
     const RECIPES_URL = '/api/recipes-34151303';
     const INV_URL = '/api/inventory-34151303';
-
-    // Utility
     const el = sel => document.querySelector(sel);
 
     // Load stats + spotlight + inventory
@@ -302,12 +260,13 @@
         el('#stat-value').textContent = '$' + total.toFixed(2);
 
         // Spotlight (shortest prepTime)
+        const spot = el('#spotlight');
         if (recipes.length) {
-          const sorted = [...recipes].sort((a,b) => (a.prepTime||9999) - (b.prepTime||9999));
+          const sorted = [...recipes].sort((a,b) => (a.prepTime ?? 9999) - (b.prepTime ?? 9999));
           const r = sorted[0];
-          el('#spotlight').innerHTML = `
+          spot.innerHTML = `
             <div class="d-flex gap-3 align-items-start">
-              <img src="/images/logo-34151303.png" alt="" width="56" height="56" class="rounded border">
+              <img src="/images/logo_34151303.png" alt="" width="64" height="64" class="rounded border">
               <div>
                 <div class="h5 mb-1">${r.title}</div>
                 <div class="text-muted small mb-2">
@@ -315,13 +274,15 @@
                 </div>
                 <div class="small">
                   <strong>Ingredients:</strong>
-                  ${Array.isArray(r.ingredients) ? r.ingredients.map(i => (i.item || i)).slice(0,4).join(', ') : '—'}
+                  ${Array.isArray(r.ingredients)
+                    ? r.ingredients.map(i => (i.item || i)).slice(0,4).join(', ')
+                    : '—'}
                   ${Array.isArray(r.ingredients) && r.ingredients.length > 4 ? '…' : ''}
                 </div>
               </div>
             </div>`;
         } else {
-          el('#spotlight').textContent = 'No recipes yet.';
+          spot.innerHTML = '<div class="text-muted small">No recipes yet.</div>';
         }
 
         // Inventory snapshot (top 5)
@@ -329,25 +290,26 @@
         if (!items.length) {
           tbody.innerHTML = '<tr><td colspan="5" class="text-muted">No inventory items yet.</td></tr>';
         } else {
-          tbody.innerHTML = items.slice(0,5).map(it => `
+          tbody.innerHTML = items.slice(0, 5).map(it => `
             <tr>
               <td>${it.ingredientName}</td>
               <td class="text-end">${it.quantity}</td>
               <td>${it.unit}</td>
               <td>${it.location || '—'}</td>
-              <td class="text-end">${(Number(it.cost)||0).toFixed(2)}</td>
+              <td class="text-end">$${(Number(it.cost) || 0).toFixed(2)}</td>
             </tr>
           `).join('');
+
           el('#inventory-note').textContent =
-            items.length > 5 ? `Showing 5 of ${items.length} items` : `Showing ${items.length} item(s)`;
+            items.length > 5
+              ? `Showing 5 of ${items.length} items`
+              : `Showing ${items.length} item(s)`;
         }
       } catch (e) {
         console.error(e);
-        // leave placeholders
       }
-    }
+    } // <-- ✅ closes loadDashboard()
 
-    // Search
     async function onSearch(evt) {
       evt.preventDefault();
       const q = el('#search-q').value.trim();
@@ -361,11 +323,12 @@
 
       try {
         const url = new URL(RECIPES_URL, location.origin);
-        if (q) url.searchParams.set('q', q);
+        if (q)   url.searchParams.set('q', q);
         if (max) url.searchParams.set('maxPrep', max);
 
         const data = await fetch(url).then(r => r.json());
         status.textContent = data.length ? `Found ${data.length} recipe(s)` : 'No results';
+
         grid.innerHTML = data.map(r => `
           <div class="col">
             <div class="card h-100 border-0 shadow-sm">
@@ -375,9 +338,11 @@
                 <div class="small">Prep: ${r.prepTime} mins • Servings: ${r.servings}</div>
               </div>
             </div>
-          </div>`).join('');
+          </div>
+        `).join('');
       } catch (e) {
         status.textContent = 'Search failed.';
+        console.error(e);
       }
     }
 

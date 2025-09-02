@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Recipe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .section-header .emoji {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group.half {
+            flex: 0.5;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #495057;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .placeholder-text {
+            color: #adb5bd;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>➕ Add New Recipe</h1>
+            <p>Share your culinary creation with detailed instructions and ingredients</p>
+        </div>
+
+        <form class="form-content">
+            <!-- Basic Information Section -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="emoji">📝</span>
+                    Basic Information
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Recipe Title <span class="required">*</span></label>
+                        <input type="text" placeholder="e.g., Chocolate Chip Cookies" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Chef Name <span class="required">*</span></label>
+                        <input type="text" value="JohnSmith-12345678" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipe Details Section -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="emoji">🍽️</span>
+                    Recipe Details
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Meal Type <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Select meal type...</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="snack">Snack</option>
+                            <option value="appetizer">Appetizer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cuisine Type <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Select cuisine type...</option>
+                            <option value="american">American</option>
+                            <option value="italian">Italian</option>
+                            <option value="mexican">Mexican</option>
+                            <option value="asian">Asian</option>
+                            <option value="mediterranean">Mediterranean</option>
+                            <option value="indian">Indian</option>
+                            <option value="french">French</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Prep Time (minutes) <span class="required">*</span></label>
+                        <input type="number" value="30" min="1" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Difficulty Level <span class="required">*</span></label>
+                        <select required>
+                            <option value="">Select difficulty...</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group half">
+                        <label>Servings <span class="required">*</span></label>
+                        <input type="number" value="4" min="1" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingredients Section -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="emoji">🥕</span>
+                    Ingredients
+                </div>
+                <div class="form-group">
+                    <label>Ingredients List <span class="required">*</span></label>
+                    <textarea placeholder="Enter each ingredient on a separate line or separated by commas:
+- 2 cups all-purpose flour
+- 1 cup sugar
+- 2 large eggs
+- 1 tsp vanilla extract" required>- 2 cups all-purpose flour
+- 1 cup sugar
+- 2 large eggs
+- 1 tsp vanilla extract</textarea>
+                    <div class="help-text">Enter ingredients separated by commas or new lines. Include quantities and measurements.</div>
+                </div>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="emoji">📋</span>
+                    Instructions
+                </div>
+                <div class="form-group">
+                    <label>Cooking Instructions <span class="required">*</span></label>
+                    <textarea placeholder="Enter step-by-step instructions separated by commas or new lines:
+1. Preheat oven to 350°F
+2. Mix dry ingredients in a bowl
+3. Add wet ingredients and mix until combined
+4. Bake for 12-15 minutes" required>1. Preheat oven to 350°F
+2. Mix dry ingredients in a bowl
+3. Add wet ingredients and mix until combined
+4. Bake for 12-15 minutes</textarea>
+                    <div class="help-text">Provide clear, step-by-step cooking instructions separated by commas or new lines.</div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary">
+                    📄 View Recipes
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Add Recipe
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Basic form validation and interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const viewRecipesBtn = document.querySelector('.btn-secondary');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Recipe added successfully!');
+            });
+            
+            viewRecipesBtn.addEventListener('click', function() {
+                alert('View Recipes functionality would be implemented here');
+            });
+        });
+    </script>
+</body>
+</html>
