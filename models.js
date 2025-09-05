@@ -1,6 +1,9 @@
 // models.js  (ES module, no external libs)
 // Focus: Class design, encapsulation, validation, in-memory initialisation
 
+import fs from "fs";
+import path from "path";
+
 /* ========================== Utilities & Validators ========================== */
 
 const ISO_DATE_RX = /^\d{4}-\d{2}-\d{2}$/;
@@ -155,6 +158,40 @@ export class Recipe {
     };
   }
 }
+
+// models.js
+class RecipeRepoClass {
+  constructor() {
+    this.recipes = [];
+  }
+
+  getAll() {
+    return this.recipes;
+  }
+
+  add(recipe) {
+    this.recipes.push(recipe);
+    return recipe;
+  }
+
+  delete(id) {
+    this.recipes = this.recipes.filter(r => String(r.id) !== String(id));
+  }
+}
+
+class InventoryRepoClass {
+  constructor() {
+    this.items = [];
+  }
+
+  getAll() {
+    return this.items;
+  }
+}
+
+export const RecipeRepoClass = new RecipeRepoClass();
+export const InventoryRepoClass = new InventoryRepoClass();
+
 
 /* ============================ InventoryItem Class =========================== */
 
@@ -387,3 +424,48 @@ export const InventoryRepo = {
     return it.toJSON();
   }
 };
+
+
+const DATA_DIR = path.join(process.cwd(), "data");        // adjust if needed
+const RECIPES_JSON = path.join(DATA_DIR, "recipes.json");
+
+function ensureDataFile() {
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (!fs.existsSync(RECIPES_JSON)) fs.writeFileSync(RECIPES_JSON, "[]", "utf8");
+}
+function readAll() {
+  ensureDataFile();
+  return JSON.parse(fs.readFileSync(RECIPES_JSON, "utf8"));
+}
+function writeAll(arr) {
+  fs.writeFileSync(RECIPES_JSON, JSON.stringify(arr, null, 2), "utf8");
+}
+
+export const Reciperepo = {
+  add(recipe) {
+    const all = readAll();
+    // simple ID scheme: "R-00001"
+    const nextNum = (all.reduce((m, r) => Math.max(m, Number(String(r.id||"").replace(/[^\d]/g,"")) || 0), 0) + 1);
+    const id = `R-${String(nextNum).padStart(5, "0")}`;
+    const created = new Date().toISOString().slice(0,10);
+    const toSave = { id, created, ...recipe };
+    all.push(toSave);
+    writeAll(all);
+    return toSave;
+  },
+
+  getAll() {
+    return readAll();
+  },
+
+  delete(id) {
+    const all = readAll();
+    const idx = all.findIndex(r => String(r.id) === String(id));
+    if (idx === -1) throw new Error("Not found");
+    all.splice(idx, 1);
+    writeAll(all);
+  }
+};
+
+
+

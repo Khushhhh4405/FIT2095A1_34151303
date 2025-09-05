@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A personal recipe management and meal planning system for FIT2095 Assignment 1(Khush Bandaria-34151303)",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
@@ -17,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "ejs": "^3.1.10",
     "express": "^5.1.0"
   },
   "repository": {

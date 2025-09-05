@@ -1,0 +1,61 @@
+[
+  {
+    "id": "R-96621",
+    "title": "Classic Spaghetti Carbonara",
+    "chef": "NewAI4All-12345678",
+    "mealType": "Pasta",
+    "cuisine": "Italian",
+    "difficulty": "Medium",
+    "prepTime": "25",
+    "servings": "4",
+    "created": "2025-06-11",
+    "ingredients": [
+      "400g spaghetti",
+      "200g pancetta or guanciale",
+      "4 large eggs",
+      "100g Pecorino Romano cheese",
+      "Black pepper",
+      "Salt"
+    ],
+    "instructions": [
+      "Bring a large pot of salted water to boil and cook spaghetti according to package instructions.",
+      "While pasta cooks, cut pancetta into small cubes and cook in a large pan until crispy.",
+      "In a bowl, whisk together eggs, grated cheese, and plenty of black pepper.",
+      "Drain pasta, reserving 1 cup of pasta water.",
+      "Add hot pasta to the pan with pancetta, remove from heat.",
+      "Quickly stir in egg mixture, adding pasta water as needed to create a creamy sauce.",
+      "Serve immediately with extra cheese and black pepper."
+    ]
+  },
+  {
+    "id": "R-96622",
+    "title": "Avocado Toast Supreme",
+    "chef": "NewAI4All-12345678",
+    "mealType": "Breakfast",
+    "cuisine": "Mediterranean",
+    "difficulty": "Easy",
+    "prepTime": "10",
+    "servings": "2",
+    "created": "2025-06-11",
+    "ingredients": [
+      "2 slices sourdough bread",
+      "1 large ripe avocado",
+      "1 lime",
+      "2 eggs",
+      "Cherry tomatoes",
+      "Feta cheese",
+      "Olive oil",
+      "Salt and pepper",
+      "Red pepper flakes"
+    ],
+    "instructions": [
+      "Toast the sourdough bread until golden brown.",
+      "Mash avocado with lime juice, salt, and pepper.",
+      "Fry or poach eggs to your preference.",
+      "Spread avocado mixture on toast.",
+      "Top with sliced cherry tomatoes, crumbled feta, and cooked egg.",
+      "Drizzle with olive oil and sprinkle with red pepper flakes.",
+      "Serve immediately while warm."
+    ]
+  }
+]

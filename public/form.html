@@ -201,7 +201,7 @@
             <p>Share your culinary creation with detailed instructions and ingredients</p>
         </div>
 
-        <form class="form-content">
+        <form class="form-content" method="POST" action="/add-recipe">
             <!-- Basic Information Section -->
             <div class="section">
                 <div class="section-header">
@@ -211,11 +211,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Recipe Title <span class="required">*</span></label>
-                        <input type="text" placeholder="e.g., Chocolate Chip Cookies" required>
+                        <input type="text" name="title" placeholder="e.g., Chocolate Chip Cookies" required>
                     </div>
                     <div class="form-group">
                         <label>Chef Name <span class="required">*</span></label>
-                        <input type="text" value="JohnSmith-12345678" required>
+                        <input type="text" name="chef" value="JohnSmith-12345678" required>
                     </div>
                 </div>
             </div>
@@ -229,48 +229,48 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Meal Type <span class="required">*</span></label>
-                        <select required>
+                        <select name="mealType" required>
                             <option value="">Select meal type...</option>
-                            <option value="breakfast">Breakfast</option>
-                            <option value="lunch">Lunch</option>
-                            <option value="dinner">Dinner</option>
-                            <option value="dessert">Dessert</option>
-                            <option value="snack">Snack</option>
-                            <option value="appetizer">Appetizer</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Appetizer">Appetizer</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Cuisine Type <span class="required">*</span></label>
-                        <select required>
+                        <select name="cuisine" required>
                             <option value="">Select cuisine type...</option>
-                            <option value="american">American</option>
-                            <option value="italian">Italian</option>
-                            <option value="mexican">Mexican</option>
-                            <option value="asian">Asian</option>
-                            <option value="mediterranean">Mediterranean</option>
-                            <option value="indian">Indian</option>
-                            <option value="french">French</option>
-                            <option value="other">Other</option>
+                            <option value="American">American</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Asian">Asian</option>
+                            <option value="Mediterranean">Mediterranean</option>
+                            <option value="Indian">Indian</option>
+                            <option value="French">French</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group half">
                         <label>Prep Time (minutes) <span class="required">*</span></label>
-                        <input type="number" value="30" min="1" required>
+                        <input type="number" name="prepTime" value="30" min="1" required>
                     </div>
                     <div class="form-group half">
                         <label>Difficulty Level <span class="required">*</span></label>
-                        <select required>
+                        <select name="difficulty" required>
                             <option value="">Select difficulty...</option>
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
                         </select>
                     </div>
                     <div class="form-group half">
                         <label>Servings <span class="required">*</span></label>
-                        <input type="number" value="4" min="1" required>
+                        <input type="number" name="servings" value="4" min="1" required>
                     </div>
                 </div>
             </div>
@@ -283,14 +283,14 @@
                 </div>
                 <div class="form-group">
                     <label>Ingredients List <span class="required">*</span></label>
-                    <textarea placeholder="Enter each ingredient on a separate line or separated by commas:
+                    <textarea name="ingredients" placeholder="Enter each ingredient on a separate line or separated by commas:
 - 2 cups all-purpose flour
 - 1 cup sugar
 - 2 large eggs
-- 1 tsp vanilla extract" required>- 2 cups all-purpose flour
-- 1 cup sugar
-- 2 large eggs
-- 1 tsp vanilla extract</textarea>
+- 1 tsp vanilla extract" required>2 cups all-purpose flour
+1 cup sugar
+2 large eggs
+1 tsp vanilla extract</textarea>
                     <div class="help-text">Enter ingredients separated by commas or new lines. Include quantities and measurements.</div>
                 </div>
             </div>
@@ -303,7 +303,7 @@
                 </div>
                 <div class="form-group">
                     <label>Cooking Instructions <span class="required">*</span></label>
-                    <textarea placeholder="Enter step-by-step instructions separated by commas or new lines:
+                    <textarea name="instructions" placeholder="Enter step-by-step instructions separated by commas or new lines:
 1. Preheat oven to 350°F
 2. Mix dry ingredients in a bowl
 3. Add wet ingredients and mix until combined
@@ -317,29 +317,28 @@
 
             <!-- Buttons -->
             <div class="button-group">
-                <button type="button" class="btn btn-secondary">
-                    📄 View Recipes
-                </button>
+                <!-- FIXED: Proper link to view recipes -->
+                <a href="/recipes" class="btn btn-secondary">
+                    📚 View Recipes
+                </a>
                 <button type="submit" class="btn btn-primary">
-                    Add Recipe
+                    ➕ Add Recipe
                 </button>
             </div>
         </form>
     </div>
 
     <script>
-        // Basic form validation and interaction
+        // Form submission handling
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
-            const viewRecipesBtn = document.querySelector('.btn-secondary');
             
             form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Recipe added successfully!');
-            });
-            
-            viewRecipesBtn.addEventListener('click', function() {
-                alert('View Recipes functionality would be implemented here');
+                // Let the form submit naturally to the server
+                // Remove the preventDefault() to allow normal form submission
+                const submitBtn = document.querySelector('.btn-primary');
+                submitBtn.innerHTML = '⏳ Adding Recipe...';
+                submitBtn.disabled = true;
             });
         });
     </script>

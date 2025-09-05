@@ -1,353 +1,427 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recipe Hub — Khush Bandaria (34151303)</title>
-
-  <!-- Bootstrap served locally (NO CDN) -->
-  <link rel="stylesheet" href="/assets-34151303/bootstrap/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Hub - Khush Bandaria (34151303)</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #4aa3ff 100%);
+            color: white;
+            padding: 4rem 20px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        /* Sections */
+        section {
+            margin: 3rem 0;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        /* Quick Links Grid */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .link-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .link-card-header {
+            padding: 1rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .link-card-header.recipes {
+            background: #667eea;
+        }
+        
+        .link-card-header.inventory {
+            background: #28a745;
+        }
+        
+        .link-card-header.tools {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .link-card-body {
+            padding: 1.5rem;
+        }
+        
+        .button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .button-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .button-primary:hover {
+            background: #5a67d8;
+        }
+        
+        .button-secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
+        
+        .button-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-copyright {
+            text-align: center;
+            opacity: 0.7;
+            font-size: 0.875rem;
+            padding-top: 1rem;
+            border-top: 1px solid #4a5568;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <div class="logo">🍴 Recipe Hub</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/inventory">Inventory</a></li>
+                <li><a href="/hd">HD</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Your Personal Meal Planning Assistant</h1>
+        <p>Store recipes, manage ingredients, and plan meals efficiently</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8">
+            Node.js + Express • In-memory storage • FIT2095 Assignment
+        </p>
+    </section>
+
+    <!-- Main Container -->
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <img src="/images/logo_34151303.png" alt="Logo" width="32" height="32" class="rounded">
-        <span class="fw-bold">Recipe Hub</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-
-          <!-- Recipes dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Recipes</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/recipes/index.html">View (UI)</a></li>
-              <li><a class="dropdown-item" href="/recipes/new">➕ Add New Recipe</a></li>
-              <li><a class="dropdown-item" href="/api/recipes-34151303">View JSON</a></li>
-            </ul>
-          </li>
-
-          <!-- Inventory dropdown -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Inventory</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/api/inventory-34151303">View (GET)</a></li>
-              <li><a class="dropdown-item" href="/errors/400.html">Add (POST) – see docs</a></li>
-            </ul>
-          </li>
-
-          <!-- Error pages -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Errors</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/errors/400.html">400</a></li>
-              <li><a class="dropdown-item" href="/errors/404.html">404</a></li>
-              <li><a class="dropdown-item" href="/errors/500.html">500</a></li>
-            </ul>
-          </li>
-        </ul>
-
-        <span class="navbar-text">
-          Welcome, <strong>Khush Bandaria</strong> (ID: 34151303)
-        </span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="py-5 text-white text-center" style="background: linear-gradient(135deg,#0d6efd,#4aa3ff);">
-    <div class="container">
-      <h1 class="display-5 fw-bold mb-2">Your Personal Meal Planning Assistant</h1>
-      <p class="lead mb-3">Store recipes, manage ingredients, and plan meals efficiently.</p>
-      <div class="small opacity-75">Node.js + Express • Bootstrap (local) • In-memory storage</div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section class="container my-5">
-    <h2 class="h4 text-center mb-4">Overview</h2>
-    <div class="row g-3">
-      <div class="col-6 col-md-3">
-        <div class="card text-center border-0 shadow-sm h-100">
-          <div class="card-body">
-            <div class="fw-semibold text-muted">Total Recipes</div>
-            <div id="stat-recipes" class="display-6">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="card text-center border-0 shadow-sm h-100">
-          <div class="card-body">
-            <div class="fw-semibold text-muted">Inventory Items</div>
-            <div id="stat-items" class="display-6">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="card text-center border-0 shadow-sm h-100">
-          <div class="card-body">
-            <div class="fw-semibold text-muted">Cuisine Types</div>
-            <div id="stat-cuisines" class="display-6">—</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="card text-center border-0 shadow-sm h-100">
-          <div class="card-body">
-            <div class="fw-semibold text-muted">Inventory Value</div>
-            <div id="stat-value" class="display-6">—</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEARCH & SPOTLIGHT -->
-  <section class="container mb-5">
-    <div class="row g-4">
-      <!-- Search -->
-      <div class="col-lg-7">
-        <div class="card border-0 shadow-sm">
-          <div class="card-header bg-white">
-            <div class="d-flex align-items-center justify-content-between">
-              <h3 class="h5 mb-0">Find Recipes</h3>
-              <small class="text-muted">Search title, chef, cuisine, or ingredient</small>
+        
+        <!-- Stats Overview -->
+        <section class="stats">
+            <div class="stat-card">
+                <h3>Total Recipes</h3>
+                <div class="number">12</div>
             </div>
-          </div>
-          <div class="card-body">
-            <form id="search-form" class="row g-2">
-              <div class="col-12 col-md-8">
-                <input id="search-q" class="form-control" placeholder="e.g. spaghetti, avocado, Italian" />
-              </div>
-              <div class="col-6 col-md-2">
-                <input id="search-max" class="form-control" type="number" min="0" placeholder="Max mins" />
-              </div>
-              <div class="col-6 col-md-2 d-grid">
-                <button class="btn btn-primary" type="submit">Search</button>
-              </div>
-            </form>
-
-            <div id="search-status" class="text-muted small mt-3" style="display:none;"></div>
-            <div id="search-results" class="row row-cols-1 row-cols-md-2 g-3 mt-1"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spotlight -->
-      <div class="col-md-5">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-header bg-light fw-semibold">Spotlight: Quickest Recipe</div>
-          <div class="card-body" id="spotlight">
-            <div class="text-muted small">Loading…</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INVENTORY SNAPSHOT -->
-  <section class="container mb-5">
-    <div class="card border-0 shadow-sm">
-      <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <h3 class="h5 mb-0">Inventory Snapshot</h3>
-        <a class="btn btn-sm btn-outline-success" href="/api/inventory-34151303">View Full JSON</a>
-      </div>
-
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-sm align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Ingredient</th>
-                <th class="text-end">Qty</th>
-                <th>Unit</th>
-                <th>Location</th>
-                <th class="text-end">Cost</th>
-              </tr>
-            </thead>
-            <tbody id="inventory-rows">
-              <tr><td colspan="5" class="text-muted">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="text-end text-muted small" id="inventory-note"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUICK ACTIONS -->
-  <section class="container mb-5">
-    <h2 class="h5 mb-3">Quick Actions</h2>
-    <div class="row g-3">
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-header bg-primary text-white">Recipes</div>
-          <div class="card-body">
-            <a class="btn btn-outline-primary w-100 mb-2" href="/recipes/index.html">
-              View All Recipes
-            </a>
-            <a class="btn btn-outline-secondary w-100" href="/recipes/new.html">
-              ➕ Add New Recipe
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-header bg-success text-white">Inventory</div>
-          <div class="card-body">
-            <a class="btn btn-outline-success w-100 mb-2" href="/api/inventory-34151303">View Inventory</a>
-            <a class="btn btn-outline-secondary w-100" href="/errors/400.html">Add Inventory Item (POST)</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-header bg-warning">Helpful Links</div>
-          <div class="card-body">
-            <a class="btn btn-outline-warning w-100 mb-2" href="/errors/404.html">404 Page</a>
-            <a class="btn btn-outline-warning w-100" href="/errors/500.html">500 Page</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-top py-4">
-    <div class="container d-flex justify-content-between small text-muted">
-      <div>
-        <div class="fw-semibold">Recipe Hub</div>
-        <div>Personal Meal Planning Assistant</div>
-      </div>
-      <div class="text-end">
-        <div>Built by <strong>Khush Bandaria</strong></div>
-        <div>Student ID: <strong>34151303</strong></div>
-      </div>
-    </div>
-    <div class="container text-center small text-muted mt-3">© 2025 Recipe Hub – FIT2095 Assignment 1</div>
-  </footer>
-
-  <!-- Single Bootstrap bundle at the end -->
-  <script src="/assets-34151303/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    const RECIPES_URL = '/api/recipes-34151303';
-    const INV_URL = '/api/inventory-34151303';
-    const el = sel => document.querySelector(sel);
-
-    // Load stats + spotlight + inventory
-    async function loadDashboard() {
-      try {
-        const [recipes, items] = await Promise.all([
-          fetch(RECIPES_URL).then(r => r.json()),
-          fetch(INV_URL).then(r => r.json())
-        ]);
-
-        // Stats
-        el('#stat-recipes').textContent = recipes.length;
-        el('#stat-items').textContent = items.length;
-        const cuisines = new Set(recipes.map(r => (r.cuisineType || '').toLowerCase()).filter(Boolean));
-        el('#stat-cuisines').textContent = cuisines.size;
-        const total = items.reduce((sum, it) => sum + (Number(it.cost) || 0), 0);
-        el('#stat-value').textContent = '$' + total.toFixed(2);
-
-        // Spotlight (shortest prepTime)
-        const spot = el('#spotlight');
-        if (recipes.length) {
-          const sorted = [...recipes].sort((a,b) => (a.prepTime ?? 9999) - (b.prepTime ?? 9999));
-          const r = sorted[0];
-          spot.innerHTML = `
-            <div class="d-flex gap-3 align-items-start">
-              <img src="/images/logo_34151303.png" alt="" width="64" height="64" class="rounded border">
-              <div>
-                <div class="h5 mb-1">${r.title}</div>
-                <div class="text-muted small mb-2">
-                  ${r.cuisineType || '—'} • ${r.mealType || '—'} • ${r.prepTime} mins
-                </div>
-                <div class="small">
-                  <strong>Ingredients:</strong>
-                  ${Array.isArray(r.ingredients)
-                    ? r.ingredients.map(i => (i.item || i)).slice(0,4).join(', ')
-                    : '—'}
-                  ${Array.isArray(r.ingredients) && r.ingredients.length > 4 ? '…' : ''}
-                </div>
-              </div>
-            </div>`;
-        } else {
-          spot.innerHTML = '<div class="text-muted small">No recipes yet.</div>';
-        }
-
-        // Inventory snapshot (top 5)
-        const tbody = el('#inventory-rows');
-        if (!items.length) {
-          tbody.innerHTML = '<tr><td colspan="5" class="text-muted">No inventory items yet.</td></tr>';
-        } else {
-          tbody.innerHTML = items.slice(0, 5).map(it => `
-            <tr>
-              <td>${it.ingredientName}</td>
-              <td class="text-end">${it.quantity}</td>
-              <td>${it.unit}</td>
-              <td>${it.location || '—'}</td>
-              <td class="text-end">$${(Number(it.cost) || 0).toFixed(2)}</td>
-            </tr>
-          `).join('');
-
-          el('#inventory-note').textContent =
-            items.length > 5
-              ? `Showing 5 of ${items.length} items`
-              : `Showing ${items.length} item(s)`;
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    } // <-- ✅ closes loadDashboard()
-
-    async function onSearch(evt) {
-      evt.preventDefault();
-      const q = el('#search-q').value.trim();
-      const max = el('#search-max').value.trim();
-      const status = el('#search-status');
-      const grid = el('#search-results');
-
-      status.style.display = 'block';
-      status.textContent = 'Searching…';
-      grid.innerHTML = '';
-
-      try {
-        const url = new URL(RECIPES_URL, location.origin);
-        if (q)   url.searchParams.set('q', q);
-        if (max) url.searchParams.set('maxPrep', max);
-
-        const data = await fetch(url).then(r => r.json());
-        status.textContent = data.length ? `Found ${data.length} recipe(s)` : 'No results';
-
-        grid.innerHTML = data.map(r => `
-          <div class="col">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body">
-                <div class="h6 mb-1">${r.title}</div>
-                <div class="text-muted small mb-2">${r.cuisineType || '—'} • ${r.mealType || '—'}</div>
-                <div class="small">Prep: ${r.prepTime} mins • Servings: ${r.servings}</div>
-              </div>
+            <div class="stat-card">
+                <h3>Inventory Items</h3>
+                <div class="number">24</div>
             </div>
-          </div>
-        `).join('');
-      } catch (e) {
-        status.textContent = 'Search failed.';
-        console.error(e);
-      }
-    }
+            <div class="stat-card">
+                <h3>Cuisine Types</h3>
+                <div class="number">5</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Value</h3>
+                <div class="number">$156.80</div>
+            </div>
+        </section>
 
-    document.getElementById('search-form').addEventListener('submit', onSearch);
-    loadDashboard();
-  </script>
+        <!-- Welcome Message -->
+        <section>
+            <div class="card">
+                <h3>Welcome to Recipe Hub!</h3>
+                <p>This is your personal meal planning and recipe management system. Use the navigation menu above or the quick actions below to get started.</p>
+                <p style="margin-top: 1rem;">
+                    <strong>Student:</strong> Khush Bandaria<br>
+                    <strong>ID:</strong> 34151303
+                </p>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section>
+            <h2>Quick Actions</h2>
+            <div class="quick-links">
+                <div class="link-card">
+                    <div class="link-card-header recipes">
+                        📖 Recipes
+                    </div>
+                    <div class="link-card-body">
+                        <a href="/recipes" class="button button-primary">View All Recipes</a>
+                        <a href="/recipes/new" class="button button-secondary">➕ Add New Recipe</a>
+                        <a href="/recipes/1" class="button button-secondary">View Recipe #1</a>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <div class="link-card-header inventory">
+                        📦 Inventory
+                    </div>
+                    <div class="link-card-body">
+                        <a href="/inventory" class="button button-primary">View Inventory</a>
+                        <a href="/inventory/new" class="button button-secondary">➕ Add Item</a>
+                        <a href="/inventory/1" class="button button-secondary">View Item #1</a>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <div class="link-card-header tools">
+                        🛠️ Tools & Links
+                    </div>
+                    <div class="link-card-body">
+                        <a href="/hd" class="button button-primary">HD Section</a>
+                        <a href="/error?code=404" class="button button-secondary">Test 404 Page</a>
+                        <a href="/error?code=500" class="button button-secondary">Test 500 Page</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Box -->
+        <section>
+            <div class="info-box">
+                <h3>About This Application</h3>
+                <p>Recipe Hub is a comprehensive meal planning assistant built with Node.js and Express. It allows you to:</p>
+                <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                    <li>Store and manage your favorite recipes</li>
+                    <li>Track inventory items and ingredients</li>
+                    <li>Search recipes by cuisine type or preparation time</li>
+                    <li>Plan meals efficiently with organized data</li>
+                </ul>
+                <p>All data is stored in-memory during the current session.</p>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section>
+            <h2>Features</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>🍝 Recipe Management</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
+                        Create, view, update, and delete recipes with detailed information
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <h3>📊 Inventory Tracking</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
+                        Monitor ingredients, quantities, and costs in real-time
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <h3>🔍 Smart Search</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
+                        Find recipes by ingredients, cuisine type, or cooking time
+                    </p>
+                </div>
+                <div class="stat-card">
+                    <h3>📱 Responsive Design</h3>
+                    <p style="color: #666; font-size: 0.95rem; margin-top: 0.5rem;">
+                        Access your recipes from any device, anywhere
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <strong>Recipe Hub</strong><br>
+                    Personal Meal Planning Assistant<br>
+                    Version 1.0
+                </div>
+                <div>
+                    <strong>Developed by:</strong><br>
+                    Khush Bandaria<br>
+                    Student ID: 34151303
+                </div>
+            </div>
+            <div class="footer-copyright">
+                © 2025 Recipe Hub - FIT2095 Assignment 1
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

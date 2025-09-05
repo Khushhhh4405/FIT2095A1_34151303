@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Recipes - Recipe Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .student-info {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Action Buttons */
+        .actions {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Recipe Count */
+        .recipe-count {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f0f4ff;
+            border-radius: 6px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Recipe ID styling */
+        .recipe-id {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+
+        /* Badge styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-cuisine {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-meal {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-difficulty-Easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-difficulty-Medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-difficulty-Hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Action buttons in table */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-view {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+
+        .btn-view:hover {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ffe4e6;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 700px;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🍴 Recipe Hub</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/inventory">Inventory</a></li>
+            </ul>
+            <div class="student-info">
+                Welcome, <strong><%= student %></strong>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📚 All Recipes</h1>
+            <p>Discover and manage your culinary collection</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+            <a href="/recipes/new" class="btn btn-primary">
+                ➕ Add New Recipe
+            </a>
+            <a href="/recipes/deleted" class="btn btn-secondary">
+                🗑️ View Deleted Recipes
+            </a>
+        </div>
+
+        <!-- Recipe Count -->
+        <div class="recipe-count">
+            <%= recipes.length %> recipe<%= recipes.length !== 1 ? 's' : '' %> available
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>📋 Recipe Table</h2>
+            </div>
+
+            <% if (recipes.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recipe ID</th>
+                            <th>Title</th>
+                            <th>Chef</th>
+                            <th>Meal Type</th>
+                            <th>Cuisine</th>
+                            <th>Difficulty</th>
+                            <th>Prep Time</th>
+                            <th>Servings</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recipes.forEach((recipe, index) => { %>
+                            <tr>
+                                <td>
+                                    <span class="recipe-id">R<%= String(recipe.id || index + 1).padStart(4, '0') %></span>
+                                </td>
+                                <td>
+                                    <strong><%= recipe.title %></strong>
+                                </td>
+                                <td><%= recipe.chef || 'Unknown Chef' %></td>
+                                <td>
+                                    <span class="badge badge-meal"><%= recipe.mealType || 'Not specified' %></span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-cuisine"><%= recipe.cuisineType || recipe.cuisine || 'Not specified' %></span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-difficulty-<%= recipe.difficulty || 'Medium' %>">
+                                        <%= recipe.difficulty || 'Medium' %>
+                                    </span>
+                                </td>
+                                <td><%= recipe.prepTime || 0 %> min</td>
+                                <td><%= recipe.servings || 0 %></td>
+                                <td><%= recipe.createdAt ? new Date(recipe.createdAt).toLocaleDateString() : new Date().toLocaleDateString() %></td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="/recipes/<%= recipe.id || index + 1 %>" class="btn-small btn-view">
+                                            👁️ View
+                                        </a>
+                                        <form method="POST" action="/recipes/<%= recipe.id || index + 1 %>/delete" style="display: inline;">
+                                            <button type="submit" class="btn-small btn-delete" onclick="return confirm('Are you sure you want to delete this recipe?')">
+                                                🗑️ Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="empty-state">
+                    <h3>No Recipes Yet</h3>
+                    <p>Your recipe collection is empty. Start by adding your first recipe!</p>
+                    <a href="/recipes/new" class="btn btn-primary">
+                        ➕ Add Your First Recipe
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Recipe Hub - Personal Meal Planning Assistant</p>
+        <p>Built by <strong><%= student %></strong></p>
+    </footer>
+</body>
+</html>
