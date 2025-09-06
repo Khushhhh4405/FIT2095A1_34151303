@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Dashboard - Recipe Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .student-info {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-card .label {
+            font-size: 0.875rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .stat-card.warning .value {
+            color: #ffc107;
+        }
+
+        .stat-card.danger .value {
+            color: #dc3545;
+        }
+
+        /* Action Buttons */
+        .actions {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #28a745;
+            border: 2px solid #28a745;
+        }
+
+        .btn-secondary:hover {
+            background: #28a745;
+            color: white;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover {
+            background: #f8f9fa;
+        }
+
+        .filter-tab.active {
+            background: #28a745;
+            color: white;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Item ID styling */
+        .item-id {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+
+        /* Badge styles */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-category {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+
+        .badge-location {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Stock Level Indicators */
+        .stock-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .stock-good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stock-low {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .stock-critical {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Expiry Indicators */
+        .expiry-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .expiry-fresh {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .expiry-soon {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .expiry-expired {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .expiry-none {
+            color: #6c757d;
+        }
+
+        /* Action buttons in table */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .btn-view {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+
+        .btn-view:hover {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #ffe4e6;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 2rem;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-count {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 3rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🍴 Recipe Hub</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/inventory">Inventory</a></li>
+            </ul>
+            <div class="student-info">
+                Welcome, <strong><%= student %></strong>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Success/Info Messages -->
+        <% if (typeof query !== 'undefined') { %>
+        <% if (query.deleted) { %>
+            <div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+            ✅ Successfully deleted: <%= decodeURIComponent(query.deleted) %>
+            </div>
+        <% } %>
+        <% if (query.restored) { %>
+            <div style="background: #cce5ff; color: #004085; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+            ↩️ Successfully restored: <%= decodeURIComponent(query.restored) %>
+            </div>
+        <% } %>
+        <% } %>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>📦 Inventory Dashboard</h1>
+            <p>Track ingredients, monitor stock levels, and manage your kitchen inventory</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Items</div>
+                <div class="value"><%= inventory.length %></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Value</div>
+                <div class="value">$<%= totalValue.toFixed(2) %></div>
+            </div>
+            <div class="stat-card <%= lowStockCount > 0 ? 'warning' : '' %>">
+                <div class="label">Low Stock Items</div>
+                <div class="value"><%= lowStockCount %></div>
+            </div>
+            <div class="stat-card <%= expiringCount > 0 ? 'danger' : '' %>">
+                <div class="label">Expiring Soon</div>
+                <div class="value"><%= expiringCount %></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Categories</div>
+                <div class="value"><%= categoryCount %></div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Locations</div>
+                <div class="value"><%= locationCount %></div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+            <a href="/inventory/new" class="btn btn-primary">
+                ➕ Add New Item
+            </a>
+            <a href="/inventory/export" class="btn btn-secondary">
+                📊 Export Inventory
+            </a>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterView('all')">All Items</button>
+            <button class="filter-tab" onclick="filterView('category')">By Category</button>
+            <button class="filter-tab" onclick="filterView('location')">By Location</button>
+            <button class="filter-tab" onclick="filterView('low-stock')">Low Stock</button>
+            <button class="filter-tab" onclick="filterView('expiring')">Expiring Soon</button>
+        </div>
+
+        <!-- Inventory Table -->
+        <div id="all-view">
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>📋 All Inventory Items</h2>
+                    <span><%= inventory.length %> items</span>
+                </div>
+
+                <% if (inventory.length > 0) { %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Item Name</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Quantity</th>
+                                <th>Stock Status</th>
+                                <th>Cost</th>
+                                <th>Total Value</th>
+                                <th>Expiry</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% inventory.forEach(item => { 
+                                // Calculate stock status
+                                let stockStatus = 'good';
+                                let stockClass = 'stock-good';
+                                let stockText = 'Good';
+                                
+                                if (item.quantity <= item.minStock) {
+                                    stockStatus = 'critical';
+                                    stockClass = 'stock-critical';
+                                    stockText = 'Critical';
+                                } else if (item.quantity <= item.minStock * 1.5) {
+                                    stockStatus = 'low';
+                                    stockClass = 'stock-low';
+                                    stockText = 'Low';
+                                }
+                                
+                                // Calculate expiry status
+                                let expiryClass = 'expiry-none';
+                                let expiryText = 'No expiry';
+                                let expiryIcon = '';
+                                
+                                if (item.expiryDate) {
+                                    const daysUntilExpiry = Math.floor((new Date(item.expiryDate) - new Date()) / (1000 * 60 * 60 * 24));
+                                    
+                                    if (daysUntilExpiry < 0) {
+                                        expiryClass = 'expiry-expired';
+                                        expiryText = 'EXPIRED';
+                                        expiryIcon = '⚠️';
+                                    } else if (daysUntilExpiry <= 7) {
+                                        expiryClass = 'expiry-soon';
+                                        expiryText = `${daysUntilExpiry} days`;
+                                        expiryIcon = '⏰';
+                                    } else if (daysUntilExpiry <= 30) {
+                                        expiryClass = 'expiry-soon';
+                                        expiryText = `${daysUntilExpiry} days`;
+                                    } else {
+                                        expiryClass = 'expiry-fresh';
+                                        expiryText = new Date(item.expiryDate).toLocaleDateString();
+                                    }
+                                }
+                                
+                                const itemValue = (item.quantity * item.cost);
+                            %>
+                                <tr>
+                                    <td>
+                                        <span class="item-id">INV<%= String(item.id).padStart(4, '0') %></span>
+                                    </td>
+                                    <td>
+                                        <strong><%= item.ingredientName %></strong>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-category"><%= item.category %></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-location"><%= item.location %></span>
+                                    </td>
+                                    <td>
+                                        <%= item.quantity %> <%= item.unit %>
+                                    </td>
+                                    <td>
+                                        <span class="stock-indicator <%= stockClass %>">
+                                            <%= stockText %>
+                                        </span>
+                                    </td>
+                                    <td>$<%= item.cost.toFixed(2) %></td>
+                                    <td><strong>$<%= itemValue.toFixed(2) %></strong></td>
+                                    <td>
+                                        <span class="expiry-indicator <%= expiryClass %>">
+                                            <%= expiryIcon %> <%= expiryText %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <a href="/inventory/<%= item.id %>" class="btn-small btn-view">
+                                                👁️ View
+                                            </a>
+                                            <form method="POST" action="/inventory/<%= item.id %>/delete" style="display: inline;">
+                                                <button type="submit" class="btn-small btn-delete" onclick="return confirm('Are you sure you want to delete <%= item.ingredientName %>?')">
+                                                    🗑️ Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <div class="empty-state">
+                        <h3>No Inventory Items Yet</h3>
+                        <p>Your inventory is empty. Start by adding your first item!</p>
+                        <a href="/inventory/new" class="btn btn-primary">
+                            ➕ Add Your First Item
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- By Category View -->
+        <div id="category-view" style="display: none;">
+            <% 
+            // Group items by category
+            const byCategory = {};
+            inventory.forEach(item => {
+                if (!byCategory[item.category]) {
+                    byCategory[item.category] = [];
+                }
+                byCategory[item.category].push(item);
+            });
+            %>
+            
+            <% Object.keys(byCategory).sort().forEach(category => { %>
+                <div class="category-section">
+                    <div class="table-container">
+                        <div class="category-header">
+                            <span>📁 <%= category %></span>
+                            <span class="category-count"><%= byCategory[category].length %> items</span>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Location</th>
+                                    <th>Quantity</th>
+                                    <th>Cost</th>
+                                    <th>Expiry</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% byCategory[category].forEach(item => { %>
+                                    <tr>
+                                        <td><strong><%= item.ingredientName %></strong></td>
+                                        <td><%= item.location %></td>
+                                        <td><%= item.quantity %> <%= item.unit %></td>
+                                        <td>$<%= item.cost.toFixed(2) %></td>
+                                        <td><%= item.expiryDate ? new Date(item.expiryDate).toLocaleDateString() : '-' %></td>
+                                        <td>
+                                            <form method="POST" action="/inventory/<%= item.id %>/delete" style="display: inline;">
+                                                <button type="submit" class="btn-small btn-delete" onclick="return confirm('Delete <%= item.ingredientName %>?')">
+                                                    🗑️ Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Recipe Hub - Inventory Management System</p>
+        <p>Built by <strong><%= student %></strong></p>
+    </footer>
+
+    <script>
+        function filterView(view) {
+            // Hide all views
+            document.getElementById('all-view').style.display = 'none';
+            document.getElementById('category-view').style.display = 'none';
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected view and set active tab
+            if (view === 'category') {
+                document.getElementById('category-view').style.display = 'block';
+            } else {
+                document.getElementById('all-view').style.display = 'block';
+            }
+            
+            // Set active tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
