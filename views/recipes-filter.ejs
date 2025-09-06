@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Filter - Recipe Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8f9fa; }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
+        
+        .filter-panel {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5a67d8; }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        
+        .results-info {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .recipe-card:hover { transform: translateY(-2px); }
+        
+        .recipe-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 0.5rem 0;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-easy { background: #d4edda; color: #155724; }
+        .badge-medium { background: #fff3cd; color: #856404; }
+        .badge-hard { background: #f8d7da; color: #721c24; }
+        
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>🔍 Advanced Recipe Filter</h1>
+            <p>Find recipes that match your preferences</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <h2>Filter Options</h2>
+            <form id="filterForm">
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label>Meal Type</label>
+                        <select name="mealType" id="mealType">
+                            <option value="">All Meals</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Snack">Snack</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Cuisine Type</label>
+                        <select name="cuisineType" id="cuisineType">
+                            <option value="">All Cuisines</option>
+                            <option value="Italian">Italian</option>
+                            <option value="American">American</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Asian">Asian</option>
+                            <option value="Mediterranean">Mediterranean</option>
+                            <option value="Indian">Indian</option>
+                            <option value="French">French</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Difficulty</label>
+                        <select name="difficulty" id="difficulty">
+                            <option value="">Any Difficulty</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Max Prep Time (mins)</label>
+                        <input type="number" name="maxPrepTime" id="maxPrepTime" min="0" placeholder="e.g., 30">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Min Servings</label>
+                        <input type="number" name="minServings" id="minServings" min="1" placeholder="e.g., 4">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Search Keywords</label>
+                        <input type="text" name="keywords" id="keywords" placeholder="e.g., pasta, chicken">
+                    </div>
+                </div>
+                
+                <div class="filter-buttons">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear All</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Active Filters Display -->
+        <div id="activeFilters" class="active-filters"></div>
+
+        <!-- Results Info -->
+        <div class="results-info">
+            <strong>Results:</strong> <span id="resultCount">0</span> recipes found
+        </div>
+
+        <!-- Recipe Results Grid -->
+        <div id="recipeResults" class="recipe-grid">
+            <!-- Recipes will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample recipe data (in production, this would come from the server)
+        const recipes = <%- JSON.stringify(recipes) %>;
+        
+        let activeFilters = {};
+
+        function applyFilters(event) {
+            if (event) event.preventDefault();
+            
+            const formData = new FormData(document.getElementById('filterForm'));
+            activeFilters = {};
+            
+            // Collect active filters
+            for (let [key, value] of formData.entries()) {
+                if (value && value.trim() !== '') {
+                    activeFilters[key] = value;
+                }
+            }
+            
+            // Filter recipes
+            let filteredRecipes = recipes.filter(recipe => {
+                // Meal Type filter
+                if (activeFilters.mealType && recipe.mealType !== activeFilters.mealType) {
+                    return false;
+                }
+                
+                // Cuisine Type filter
+                if (activeFilters.cuisineType && recipe.cuisineType !== activeFilters.cuisineType) {
+                    return false;
+                }
+                
+                // Difficulty filter
+                if (activeFilters.difficulty && recipe.difficulty !== activeFilters.difficulty) {
+                    return false;
+                }
+                
+                // Max Prep Time filter
+                if (activeFilters.maxPrepTime && recipe.prepTime > parseInt(activeFilters.maxPrepTime)) {
+                    return false;
+                }
+                
+                // Min Servings filter
+                if (activeFilters.minServings && recipe.servings < parseInt(activeFilters.minServings)) {
+                    return false;
+                }
+                
+                // Keywords filter
+                if (activeFilters.keywords) {
+                    const keywords = activeFilters.keywords.toLowerCase().split(',').map(k => k.trim());
+                    const recipeText = `${recipe.title} ${recipe.ingredients.join(' ')}`.toLowerCase();
+                    
+                    const hasKeyword = keywords.some(keyword => recipeText.includes(keyword));
+                    if (!hasKeyword) return false;
+                }
+                
+                return true;
+            });
+            
+            displayResults(filteredRecipes);
+            displayActiveFilters();
+        }
+
+        function displayResults(filteredRecipes) {
+            const resultsContainer = document.getElementById('recipeResults');
+            const resultCount = document.getElementById('resultCount');
+            
+            resultCount.textContent = filteredRecipes.length;
+            
+            if (filteredRecipes.length === 0) {
+                resultsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">No recipes match your filters. Try adjusting your criteria.</div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = filteredRecipes.map(recipe => `
+                <div class="recipe-card">
+                    <div class="recipe-title">${recipe.title}</div>
+                    <div class="recipe-meta">
+                        <span>⏱️ ${recipe.prepTime} mins</span>
+                        <span>👥 ${recipe.servings} servings</span>
+                    </div>
+                    <div style="margin: 0.5rem 0;">
+                        <span class="badge badge-${recipe.difficulty.toLowerCase()}">${recipe.difficulty}</span>
+                    </div>
+                    <div style="color: #666; font-size: 0.875rem; margin: 0.5rem 0;">
+                        <strong>Type:</strong> ${recipe.mealType} | <strong>Cuisine:</strong> ${recipe.cuisineType}
+                    </div>
+                    <div style="color: #666; font-size: 0.875rem;">
+                        <strong>Ingredients:</strong> ${recipe.ingredients.slice(0, 3).join(', ')}${recipe.ingredients.length > 3 ? '...' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayActiveFilters() {
+            const container = document.getElementById('activeFilters');
+            const filterTags = Object.entries(activeFilters).map(([key, value]) => {
+                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                return `
+                    <div class="filter-tag">
+                        ${label}: ${value}
+                        <button onclick="removeFilter('${key}')">×</button>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = filterTags.join('');
+        }
+
+        function removeFilter(filterKey) {
+            document.getElementById(filterKey).value = '';
+            applyFilters();
+        }
+
+        function clearFilters() {
+            document.getElementById('filterForm').reset();
+            applyFilters();
+        }
+
+        // Initialize with all recipes
+        document.addEventListener('DOMContentLoaded', () => {
+            displayResults(recipes);
+            document.getElementById('resultCount').textContent = recipes.length;
+            document.getElementById('filterForm').addEventListener('submit', applyFilters);
+        });
+    </script>
+</body>
+</html>

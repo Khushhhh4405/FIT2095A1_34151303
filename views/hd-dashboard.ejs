@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HD Features - Recipe Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 2rem auto; 
+            padding: 0 20px; 
+        }
+        
+        .hd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .hd-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .hd-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        
+        .hd-card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .hd-card .task-number {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+        }
+        
+        .demo-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-section h4 {
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+        
+        .api-endpoint {
+            background: #263238;
+            color: #aed581;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin: 0.25rem 0;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-box .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .stat-box .label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-btn">← Back to Home</a>
+    
+    <div class="header">
+        <h1>🌟 HD Features Dashboard</h1>
+        <p>Advanced functionality demonstrating high-level implementation</p>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">Student: <%= student %></p>
+    </div>
+
+    <div class="container">
+        <div class="hd-grid">
+            <!-- HD Task 1: Advanced Data Filtering -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">HD-1</span>
+                    🔍 Advanced Data Filtering
+                </h2>
+                <p>Dynamic recipe filtering with multiple criteria and real-time updates.</p>
+                <ul class="feature-list">
+                    <li>✅ Filter by meal type, cuisine, difficulty</li>
+                    <li>✅ Prep time and serving size filters</li>
+                    <li>✅ Keyword search functionality</li>
+                    <li>✅ Active filter tags with removal</li>
+                    <li>✅ Real-time result updates</li>
+                </ul>
+                <a href="/recipes/filter" class="btn">Open Filter Page</a>
+            </div>
+
+            <!-- HD Task 2: Advanced Recipe Features -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">HD-2</span>
+                    ⭐ Advanced Recipe Features
+                </h2>
+                <p>Enhanced recipe management with search, scaling, and ratings.</p>
+                <ul class="feature-list">
+                    <li>✅ Recipe search API</li>
+                    <li>✅ Recipe scaling for servings</li>
+                    <li>✅ Rating and review system</li>
+                    <li>✅ Nutrition tracking structure</li>
+                </ul>
+                <div class="demo-section">
+                    <h4>Try API Endpoints:</h4>
+                    <div class="api-endpoint">GET /api/recipes/search?q=pasta</div>
+                    <div class="api-endpoint">POST /api/recipes/R-00001/scale</div>
+                </div>
+            </div>
+
+            <!-- HD Task 3: Smart Inventory Management -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">HD-3</span>
+                    📊 Smart Inventory Management
+                </h2>
+                <p>Intelligent inventory features with alerts and analytics.</p>
+                <ul class="feature-list">
+                    <li>✅ Low stock alerts</li>
+                    <li>✅ Expiration warnings</li>
+                    <li>✅ Automatic value calculations</li>
+                    <li>✅ Category filtering & sorting</li>
+                    <li>✅ Usage tracking over time</li>
+                </ul>
+                <a href="/api/inventory/alerts" class="btn" target="_blank">View Alerts</a>
+                <a href="/api/inventory/analytics" class="btn btn-secondary" target="_blank">View Analytics</a>
+            </div>
+
+            <!-- HD Task 4: Middleware Validation -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">HD-4</span>
+                    🛡️ Data Validation Middleware
+                </h2>
+                <p>Comprehensive validation for all data inputs with meaningful error messages.</p>
+                <ul class="feature-list">
+                    <li>✅ Recipe field validation</li>
+                    <li>✅ Inventory item validation</li>
+                    <li>✅ Data type checking</li>
+                    <li>✅ Value range validation</li>
+                    <li>✅ Custom error messages</li>
+                </ul>
+                <div class="demo-section">
+                    <h4>Validation Features:</h4>
+                    <p style="font-size: 0.875rem; color: #666;">
+                        Try submitting forms with invalid data to see validation in action
+                    </p>
+                </div>
+            </div>
+
+            <!-- HD Task 5: Recipe-Inventory Integration -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">HD-5</span>
+                    🔗 Recipe-Inventory Integration
+                </h2>
+                <p>Advanced features connecting recipes with inventory items.</p>
+                <ul class="feature-list">
+                    <li>✅ Check ingredient availability</li>
+                    <li>✅ Recipe suggestions based on stock</li>
+                    <li>✅ Track ingredient usage</li>
+                    <li>✅ Shopping list generator</li>
+                    <li>✅ Prepare recipe tracking</li>
+                </ul>
+                <a href="/api/recipes/suggestions" class="btn" target="_blank">Recipe Suggestions</a>
+            </div>
+
+            <!-- System Overview -->
+            <div class="hd-card">
+                <h2>
+                    <span class="task-number">📈</span>
+                    System Overview
+                </h2>
+                <p>Current system statistics and health metrics.</p>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="value" id="totalRecipes">-</div>
+                        <div class="label">Total Recipes</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="totalInventory">-</div>
+                        <div class="label">Inventory Items</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="lowStock">-</div>
+                        <div class="label">Low Stock Alerts</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="expiring">-</div>
+                        <div class="label">Expiring Soon</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Testing Section -->
+        <div class="hd-card" style="margin-top: 2rem;">
+            <h2>🧪 API Testing Console</h2>
+            <p>Test HD features directly from this dashboard.</p>
+            
+            <div class="demo-section">
+                <h4>Quick API Tests:</h4>
+                <button class="btn" onclick="testRecipeAvailability()">Test Recipe Availability</button>
+                <button class="btn btn-secondary" onclick="testInventoryAlerts()">Test Inventory Alerts</button>
+                <button class="btn" onclick="testRecipeSearch()">Test Recipe Search</button>
+                
+                <div id="apiResults" style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 4px; display: none;">
+                    <h4>API Response:</h4>
+                    <pre id="apiResponse" style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load system statistics
+        async function loadStats() {
+            try {
+                // Get recipe count
+                const recipesRes = await fetch('/api/recipes');
+                const recipes = await recipesRes.json();
+                document.getElementById('totalRecipes').textContent = recipes.length;
+
+                // Get inventory analytics
+                const analyticsRes = await fetch('/api/inventory/analytics');
+                const analytics = await analyticsRes.json();
+                document.getElementById('totalInventory').textContent = analytics.overview.totalItems;
+                document.getElementById('lowStock').textContent = analytics.overview.lowStockItems;
+                document.getElementById('expiring').textContent = analytics.overview.expiringItems;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // API Testing Functions
+        async function testRecipeAvailability() {
+            try {
+                const response = await fetch('/api/recipes/R-00001/check-availability');
+                const data = await response.json();
+                showApiResponse(data);
+            } catch (error) {
+                showApiResponse({ error: error.message });
+            }
+        }
+
+        async function testInventoryAlerts() {
+            try {
+                const response = await fetch('/api/inventory/alerts');
+                const data = await response.json();
+                showApiResponse(data);
+            } catch (error) {
+                showApiResponse({ error: error.message });
+            }
+        }
+
+        async function testRecipeSearch() {
+            try {
+                const response = await fetch('/api/recipes/search?q=pasta&mealType=Dinner');
+                const data = await response.json();
+                showApiResponse(data);
+            } catch (error) {
+                showApiResponse({ error: error.message });
+            }
+        }
+
+        function showApiResponse(data) {
+            document.getElementById('apiResults').style.display = 'block';
+            document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Load stats on page load
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>
